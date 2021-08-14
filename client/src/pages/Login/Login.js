@@ -47,19 +47,19 @@ const Login = () => {
         <Toaster position="top-center" reverseOrder={false} />
         <Form.Item
           name="email"
-          rules={[{ required: true, message: "Please input your Username!" }]}
+          rules={[{ required: true, message: "Please input your Email!" }]}
         >
           <Input
             type='email'
             prefix={<UserOutlined className="site-form-item-icon" />}
-            placeholder="Username"
+            placeholder="Email"
           />
         </Form.Item>
         <Form.Item
           name="password"
           rules={[
             { required: true, message: "Please input your Password!" },
-            { min: 5, message: "Password must be minimum 6 characters." },
+            { min: 6, message: "Password must be minimum 6 characters." },
           ]}
         >
           <Input

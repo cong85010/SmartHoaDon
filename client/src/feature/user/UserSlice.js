@@ -81,9 +81,9 @@ export const fetchUserByToken = createAsyncThunk(
           method: "GET",
           headers: {
             Accept: "application/json",
-            auth_token: auth_token,
             "Content-Type": "application/json",
-          },
+            'auth-token': auth_token,
+          }
         }
       );
       const data = await response.json();
@@ -160,12 +160,12 @@ export const UserSlice = createSlice({
         state.firstName = payload.firstName;
         state.lastName = payload.lastName;
     },
-    [fetchUserByToken.rejected]: (state, { payload }) => {
+    [fetchUserByToken.rejected]: (state) => {
         console.log("Fail token");
         state.isFetching = false;
         state.isError = true;
     },
-    [fetchUserByToken.pending]: (state, { payload }) => {
+    [fetchUserByToken.pending]: (state) => {
         state.isFetching = true;
     }
   },

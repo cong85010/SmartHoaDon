@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Button, Checkbox, Spin } from "antd";
+import { Form, Input, Button, Checkbox, Spin, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "../Login/login.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { clearState, signupUser, userSelector } from "feature/user/UserSlice";
 import { Link, useHistory } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import logo from "assets/images/logo.png";
+
 const Register = () => {
   const dispatch = useDispatch();
   const { isFetching, isSuccess, isError, errorMessage } =
     useSelector(userSelector);
   const history = useHistory();
-  const [loading, setloading] = useState(false)
 
   const onFinish = (values) => {
-    setloading(true)
     console.log("Received values of form: ", values);
     dispatch(signupUser(values));
   };
@@ -24,12 +24,13 @@ const Register = () => {
     };
   }, []);
   useEffect(() => {
+    console.log(isSuccess)
     if (isSuccess) {
       dispatch(clearState());
-      history.push("/");
+      toast.success("Đăng ký thành công")
+      history.push("/login");
     }
     if (isError) {
-      setloading(false)
       toast.error(errorMessage);
       dispatch(clearState());
       history.push("/register");
@@ -38,6 +39,7 @@ const Register = () => {
 
   return (
     <div className="login  flex-center">
+      <img className="login_register__logo" src={logo} alt="logo" />
       <Form
         name="normal_register"
         className="login-form"
@@ -48,7 +50,13 @@ const Register = () => {
         <Toaster position="top-center" reverseOrder={false} />
         <Form.Item
           name="firstName"
-          rules={[{ required: true, message: "Please input your first name!" }]}
+          rules={[
+            {
+              type: "",
+              required: true,
+              message: "Please input your first name!",
+            },
+          ]}
         >
           <Input
             type="text"
@@ -58,7 +66,13 @@ const Register = () => {
         </Form.Item>
         <Form.Item
           name="lastName"
-          rules={[{ required: true, message: "Please input your last name!" }]}
+          rules={[
+            {
+              pattern: /[a-zA-Z]{2,}/,
+              required: true,
+              message: "Please input your last name!",
+            },
+          ]}
         >
           <Input
             type="text"
@@ -68,7 +82,13 @@ const Register = () => {
         </Form.Item>
         <Form.Item
           name="email"
-          rules={[{ required: true, message: "Please input your Email!" }]}
+          rules={[
+            {
+              type: "email",
+              required: true,
+              message: "Please input your email!",
+            },
+          ]}
         >
           <Input
             type="email"
@@ -123,9 +143,9 @@ const Register = () => {
             type="primary"
             htmlType="submit"
             className="login-form-button"
-            disabled={loading}
+            disabled={isFetching}
           >
-            {loading?<Spin /> :'Register'}
+            {isFetching ? <Spin /> : "Register"}
           </Button>
         </Form.Item>
         <Button>

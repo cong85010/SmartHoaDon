@@ -13,6 +13,7 @@ import { Layout, Menu } from "antd";
 import IndexSider from "./components/Sider/indexSider";
 import store from "store";
 import { Provider } from "react-redux";
+import Header from "components/header/Header";
 
 function App() {
   const Home = lazy(() => import("./pages/Home/Home"));
@@ -25,6 +26,7 @@ function App() {
         <Suspense fallback={<LoadingPage />}>
           <BrowserRouter>
             <IndexSider />
+            <Header />
             <Switch>
               <Redirect exact from="/" to="home" />
               <Route
@@ -37,7 +39,17 @@ function App() {
                   );
                 }}
               />
-              <Route exact path="/login" component={Login} />
+              <Route
+                exact
+                path="/login"
+                render={() => {
+                  return localStorage.getItem("token") ? (
+                    <Redirect to="/" />
+                  ) : (
+                    <Login />
+                  );
+                }}
+              />
               <Route exact path="/register" component={Register} />
             </Switch>
           </BrowserRouter>

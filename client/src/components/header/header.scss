@@ -1,0 +1,8 @@
+@import "assets/styles/valiable.scss";
+
+.header {
+  position: fixed;
+  z-index: 999;
+  width: calc(100% - #{$width-slider-desktop});
+  left: $width-slider-desktop;
+}

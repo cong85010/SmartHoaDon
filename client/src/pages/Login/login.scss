@@ -1,7 +1,8 @@
 .login {
-    width: 100%;
-  
-  #normal_login, #normal_register {
+  width: 100%;
+  flex-direction: column;
+  #normal_login,
+  #normal_register {
     min-width: 350px;
   }
   #components-form-demo-normal-login .login-form {

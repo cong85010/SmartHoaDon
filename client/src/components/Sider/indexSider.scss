@@ -1,10 +1,12 @@
-.SiderLeft {
-    & .logo {
-        height: 32px;
-        margin: 16px;
-        background: rgba(255, 255, 255, 0.3);
-        color: white;
-        font-weight: bold;
-      }
+@import "assets/styles/valiable.scss";
 
+.SiderLeft {
+  width: $width-slider-desktop;
+  & .logo {
+    height: 32px;
+    margin: 16px;
+    background: $background-sider;
+    color: white;
+    font-weight: bold;
+  }
 }

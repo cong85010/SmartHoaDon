@@ -5,18 +5,22 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "./login.scss";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { clearState, loginUser, userSelector } from "feature/user/UserSlice";
+import {
+  clearState,
+  fetchUserByToken,
+  loginUser,
+  userSelector,
+} from "feature/user/UserSlice";
 import toast, { Toaster } from "react-hot-toast";
+import logo from "assets/images/logo.png";
 const Login = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [loading, setloading] = useState(false)
   const { isFetching, isSuccess, isError, errorMessage } =
     useSelector(userSelector);
-  console.log(isError);
+  console.log(isSuccess);
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
-    setloading(true)
     dispatch(loginUser(values));
   };
   useEffect(() => {
@@ -26,31 +30,37 @@ const Login = () => {
   }, []);
   useEffect(() => {
     if (isError) {
-      setloading(false);
-      toast.error(errorMessage||'Fail to login');
+      toast.error(errorMessage || "");
       dispatch(clearState());
     }
     if (isSuccess) {
       dispatch(clearState());
       history.push("/");
     }
-  }, [isError, isSuccess]);
+  }, [errorMessage, isError, isSuccess, isFetching, history]);
   return (
     <div className="login  flex-center">
+      <img className="login_register__logo" src={logo} alt="logo" />
       <Form
         name="normal_login"
         className="login-form"
         initialValues={{ remember: true }}
         onFinish={onFinish}
-        size='large'
+        size="large"
       >
         <Toaster position="top-center" reverseOrder={false} />
         <Form.Item
           name="email"
-          rules={[{ required: true, message: "Please input your Email!" }]}
+          rules={[
+            {
+              type: "email",
+              required: true,
+              message: "Please input your Email!",
+            },
+          ]}
         >
           <Input
-            type='email'
+            type="email"
             prefix={<UserOutlined className="site-form-item-icon" />}
             placeholder="Email"
           />
@@ -83,11 +93,12 @@ const Login = () => {
             type="primary"
             htmlType="submit"
             className="login-form-button"
-            disabled={loading}
+            disabled={isFetching}
           >
-            {loading?<Spin></Spin>:'Log in'}
+            {isFetching ? <Spin></Spin> : "Log in"}
           </Button>
-          Or <Link to="/register">register now!</Link>
+          <span>Or </span>
+          <Link to="/register">register now!</Link>
         </Form.Item>
       </Form>
     </div>

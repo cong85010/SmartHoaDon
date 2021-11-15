@@ -1,8 +1,12 @@
-import Header from "components/header/Header";
+import ChartCardComponent from "components/Chart/ChartCard/ChartCard";
 import React from "react";
 
 const Home = () => {
-  return <div></div>;
+  return (
+    <div className="home">
+      <ChartCardComponent />
+    </div>
+  );
 };
 
 export default Home;

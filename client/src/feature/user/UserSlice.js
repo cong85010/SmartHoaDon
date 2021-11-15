@@ -1,21 +1,25 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import moment from "moment";
 export const signupUser = createAsyncThunk(
   "register",
   async ({ firstName, lastName, email, password }, thunkAPI) => {
     try {
-      const response = await fetch("http://localhost:3001/api/account/register", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          firstName,
-          lastName,
-          email,
-          password,
-        }),
-      });
+      const response = await fetch(
+        "http://localhost:3001/api/account/register",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            firstName,
+            lastName,
+            email,
+            password,
+          }),
+        }
+      );
       let data = await response.json();
       if (data.status === true) {
         return {
@@ -49,10 +53,11 @@ export const loginUser = createAsyncThunk(
         }),
       });
       let data = await response.json();
-      console.log(data);
 
       if (response.status === 200) {
-        localStorage.setItem("token", data.auth_token);
+        const date = moment().add(4, "h").format();
+        document.cookie = `token=${data.auth_token};`;
+        document.cookie = `expires=${date};`;
         return data;
       } else {
         return thunkAPI.rejectWithValue(data);

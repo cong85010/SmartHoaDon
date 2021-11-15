@@ -18,7 +18,6 @@ const Login = () => {
   const history = useHistory();
   const { isFetching, isSuccess, isError, errorMessage } =
     useSelector(userSelector);
-  console.log(isSuccess);
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
     dispatch(loginUser(values));
@@ -29,13 +28,14 @@ const Login = () => {
     };
   }, []);
   useEffect(() => {
-    if (isError) {
+    if (isFetching && isError) {
       toast.error(errorMessage || "");
       dispatch(clearState());
     }
-    if (isSuccess) {
+    if (!isFetching && isSuccess) {
+      toast.success("Đăng nhập thành công")
       dispatch(clearState());
-      history.push("/");
+      history.replace("/");
     }
   }, [errorMessage, isError, isSuccess, isFetching, history]);
   return (

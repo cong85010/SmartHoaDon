@@ -1,0 +1,14 @@
+@import "antd/dist/antd.css";
+@import "ant-design-pro/dist/ant-design-pro.css";
+@import "assets/styles/valiable.scss";
+html,
+body {
+  overflow-x: hidden;
+}
+.App {
+  &-main {
+    width: 100%;
+    margin-top: $height-nav;
+    padding: 30px;
+  }
+}

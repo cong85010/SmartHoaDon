@@ -24,16 +24,14 @@ const Register = () => {
     };
   }, []);
   useEffect(() => {
-    console.log(isSuccess)
     if (isSuccess) {
+      toast.success("Đăng ký thành công");
       dispatch(clearState());
-      toast.success("Đăng ký thành công")
       history.push("/login");
     }
     if (isError) {
       toast.error(errorMessage);
       dispatch(clearState());
-      history.push("/register");
     }
   }, [isSuccess, isError]);
 
@@ -147,10 +145,9 @@ const Register = () => {
           >
             {isFetching ? <Spin /> : "Register"}
           </Button>
+          <span>Or </span>
+          <Link to="/login">Login now!</Link>
         </Form.Item>
-        <Button>
-          <Link to="/login">Login</Link>
-        </Button>
       </Form>
     </div>
   );
